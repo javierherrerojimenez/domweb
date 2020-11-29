@@ -1,14 +1,15 @@
 # domweb
 
-Prueba de concepto: Arquitectura Microservicios para la entidad Leave de DOMweb
+Prueba de concepto: Arquitectura Microservicios para DOMweb
 
-# Bibliografia y referencias
+# Bibliografía y referencias
 
 Implementación de Microservicios: https://docs.microsoft.com/es-es/dotnet/architecture/microservices/microservice-ddd-cqrs-patterns/ddd-oriented-microservice
 Entity Framework: https://docs.microsoft.com/es-es/aspnet/core/data/ef-mvc/migrations?view=aspnetcore-3.1
 
 # Proyecto paso a paso
 1. Ser crean los 3 proyectos principales: Dominio, Infraestructura y API. La idea es hacer la separación tal cual se define en la documentación.
+
 1.1. El Dominio es el corazón del proyecto, donde se definen las entidades y toda la lógica de negocio. Este proyecto debe ser totalmente agnostico sobre la persistencia de los datos, solamente se definen las interfaces para persistir las entidades(Aggregates)
 1.2. En la Infraestructura se definirá la forma de persistir los datos en este caso mediante el ORM Entity Framework
 1.3. La API es la encargada de exponer métodos para que sean consumidos desde fuera, y también desde este proyecto se debe gestionar tantos los eventos del propio dominio como eventos de integración con otros microservicios

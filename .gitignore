@@ -17,6 +17,7 @@ src/Services/Leaves/Leaves.API/*.user
 /archivo.dumm
 
 # Ignorando carpetas del proyecto c#
+src/.vs/*
 .vs/*
 src/Services/Leaves/bin/*
 src/Services/Leaves/obj/*

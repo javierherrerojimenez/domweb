@@ -31,7 +31,8 @@ dotnet ef migrations add InitialCreate
 	4. La base de datos se crear en la ruta C:\Users\Javier Herrero con el nombre indicado en la clase anteriormente definida
 	5. Desde el Explorador de servidores se puede añadir la base de datos, se ha creado la base de datos pero aún sin las tablas
 
-2.2 De forma posterior ya se pueden agregar más migraciones. Pongo de ejemplo, añadir una unique key al campo ResourceCode de la entidad Recurso para ello:
+2.2. De forma posterior ya se pueden agregar más migraciones. Pongo de ejemplo, añadir una unique key al campo ResourceCode de la entidad Recurso para ello:
+
 	1. En la clase ResourceEntityTypeConfiguration se añade esta sentencia: resourceConfiguration.HasIndex(p => new { p.ResourceCode }).IsUnique();
 	2. Desde linea de comando se ejecuta esta sentencia: dotnet ef migrations  --project ../Leaves.Infrastructure  add UniqueKey_ResourceCode
 	3. De esta forma se crea automaticamente la migración en el proyecto de Infraestructura

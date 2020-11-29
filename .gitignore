@@ -1,0 +1,27 @@
+
+# Ignorando JPG's y PNG's
+
+/*.jpg
+/*.jpeg
+/*.png
+
+# Ignorando ficheros .users
+src/Services/Leaves/Leaves.API/*.user
+
+# Ignorando la Carpeta Vacía
+
+/empty
+
+# Ignorando un Archivo Individual
+
+/archivo.dumm
+
+# Ignorando carpetas del proyecto c#
+.vs/*
+src/Services/Leaves/bin/*
+src/Services/Leaves/obj/*
+bin/
+obj/
+
+#Ignorando la ovh.rar
+ovh.rar

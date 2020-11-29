@@ -20,6 +20,9 @@ namespace Leaves.Infrastructure.EntityConfigurations
             resourceConfiguration.Ignore(b => b.DomainEvents);
 
             resourceConfiguration.Property<string>("ResourceCode").IsRequired();
+
+            resourceConfiguration.HasIndex(p => new { p.ResourceCode }).IsUnique();
+
         }
     }
 }

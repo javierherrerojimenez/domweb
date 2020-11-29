@@ -4,14 +4,16 @@ using Leaves.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Leaves.Infrastructure.Migrations
 {
     [DbContext(typeof(LeavesContext))]
-    partial class LeavesContextModelSnapshot : ModelSnapshot
+    [Migration("20201129181119_UniqueKey_ResourceCode")]
+    partial class UniqueKey_ResourceCode
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

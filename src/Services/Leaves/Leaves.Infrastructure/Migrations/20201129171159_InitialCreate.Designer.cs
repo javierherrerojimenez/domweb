@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Leaves.Infrastructure.Migrations
 {
     [DbContext(typeof(LeavesContext))]
-    [Migration("20201129110752_InitialCreate")]
+    [Migration("20201129171159_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

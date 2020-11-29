@@ -18,8 +18,8 @@ namespace Leaves.API.Infrastructure
 
             using (context)
             {
-                context.Database.EnsureCreated(); // este método no ejecuta por defecto las migraciones, solo crea la base de datos
-                //context.Database.Migrate();
+                //context.Database.EnsureCreated(); // este método no ejecuta por defecto las migraciones, solo crea la base de datos
+                context.Database.Migrate();
 
                 // Look for any user
                 if (context.Resources.Any())
@@ -39,22 +39,9 @@ namespace Leaves.API.Infrastructure
                 }
 
                 context.SaveChangesAsync();
+                //context.SaveChanges();
             }
-            
 
-            
-
-            //var stocks = new Stock[]
-            //    {
-            //        new Stock{UserID = users.Single(x => x.UserName == "jherrero").UserID,
-            //            Ticker = "SAN.MC", Price= 4.5f, BuyDate = DateTime.Now, Amount = 100 }
-            //    };
-
-            //foreach (Stock s in stocks)
-            //{
-            //    context.Stocks.Add(s);
-            //}
-            //context.SaveChanges();
         }
     }
 }

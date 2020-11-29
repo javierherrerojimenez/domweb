@@ -55,12 +55,12 @@ namespace Leaves.Infrastructure.Data
     /// You can tell the migration how to create your DbContext by implementing the IDesignTimeDbContextFactory<TContext> interface: If a class implementing this interface is found in either the same project as the derived DbContext or in the application's startup project, the tools bypass the other ways of creating the DbContext and use the design-time factory instead.
     /// https://entityframeworkcore.com/knowledge-base/56363374/-error-unable-to-create-an-object-of-type--appdbcontext---for-the-different-patterns-supported-at-design-time-
     /// </summary>
-    public class OrderingContextDesignFactory : IDesignTimeDbContextFactory<LeavesContext>
+    public class LeaveContextDesignFactory : IDesignTimeDbContextFactory<LeavesContext>
     {
         public LeavesContext CreateDbContext(string[] args)
         {
             var optionsBuilder = new DbContextOptionsBuilder<LeavesContext>()
-                .UseSqlServer("Server=(localdb)\\mssqllocaldb;Database=LeavesDB;Trusted_Connection=True;MultipleActiveResultSets=true");
+                .UseSqlServer("Server=(localdb)\\mssqllocaldb;Database=leaves_db;Trusted_Connection=True;MultipleActiveResultSets=true");
 
             return new LeavesContext(optionsBuilder.Options, new NoMediator());
         }

@@ -11,11 +11,16 @@ Entity Framework: https://docs.microsoft.com/es-es/aspnet/core/data/ef-mvc/migra
 # Proyecto paso a paso
 1. Ser crean los 3 proyectos principales: Dominio, Infraestructura y API. La idea es hacer la separación tal cual se define en la documentación:
 
-	1.1. El Dominio es el corazón del proyecto, donde se definen las entidades y toda la lógica de negocio. Este proyecto debe ser totalmente agnostico sobre la persistencia de los datos, solamente se definen las interfaces para persistir las entidades(Aggregates)
+	1.1. El Dominio es el corazón del proyecto, donde se definen las entidades y toda la lógica de negocio. Este proyecto debe ser totalmente agnostico sobre la persistencia de los datos, solamente se definen las interfaces para persistir las entidades(Aggregates). Se han creado 3 AggregatesRoot:
+		- Leave: es la entidad principal
+		- Resources: AggregateRoot secundario que se referencia desde Leave
+		- LeaveTypes: AggregateRoot secundario que se referencia desde Leave. En un primer momento se intentó implementar esta entidad como un ChildEntity pero esto tiene como consecuencia un comportamiento no deseado dado que cada nuevo registro en Leave considera una nueva instancia del tipo. Es decir, cada Leave tendría su propio tipo y esto no es lo deseado.
+		Tampoco encaja del todo aquí un Enumerado ya que los valores no es un conjunto cerrado como puede ser una máquina de estados
 	
 	1.2. En la Infraestructura se definirá la forma de persistir los datos en este caso mediante el ORM Entity Framework
 	
-	1.3. La API es la encargada de exponer métodos para que sean consumidos desde fuera, y también desde este proyecto se debe gestionar tantos los eventos del propio dominio como eventos de integración con otros microservicios
+	1.3. La API es la encargada de exponer métodos para que sean consumidos desde fuera, y también desde este proyecto se debe gestionar tantos los eventos del propio dominio como eventos de integración con otros microservicios.
+		- Se añade Dapper para gestionar queries directas contra la base de datos. De esta forma separamos los comandos de las consultas tal y como se recomienda en CQRS
 	
 2. Añadir Entity Framework. Siguiendo la guía referenciada en al comienzo se aprender a crear la base de datos y gestionar la primera Migración. En este proyecto el problema está en que del DBContext no está en el proyecto principial (en este caso sería la API)
 Esto obligar a realizar varias acciones con respecto a la guía:
@@ -45,3 +50,17 @@ Esto obligar a realizar varias acciones con respecto a la guía:
 		3. De esta forma se crea automaticamente la migración en el proyecto de Infraestructura
 	
 	
+# Siguientes pasos pendientes de implementar:
+
+1. Crear una Child Entity para la entidad Leave (a modo de ejemplo y poder probar)
+2. Probar un evento de Dominio, por ejemplo LeaveStartedDomainEvent, al lanzar este evento hay que probar que otra entidad se suscriba. Por ejemplo Resource reciba el evento de que a alguno de los recursos le han asigando un Leave
+
+
+10. Crear otro Microservicio, por ejemplo uno para gestionar Tareas (Duties)
+11. Una vez tengamos el microservicio de Tareas se puede probar la gestión de un evento de integración
+15. Crear una API Gateway para devolver información o permitir que a partir de un comando a la API Gateway eso desencadene varios comandos internos en el microservicio. Por ejemplo la acción CrearLeave desde una aplicación cliente a través de la API Gateway 
+tendrá como consecuencia el lanzamiento del comando CreateLeave y por otro lado el comando que desasigne las Tareas correspondientes en el microservicio de tareas. Con eventos de integración se debe controlar la integridad entre ambos microservicios
+
+20. Añadir Logger
+
+25. Añadir contenedores Docker

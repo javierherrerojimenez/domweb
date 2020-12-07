@@ -12,8 +12,11 @@ Entity Framework: https://docs.microsoft.com/es-es/aspnet/core/data/ef-mvc/migra
 1. Ser crean los 3 proyectos principales: Dominio, Infraestructura y API. La idea es hacer la separación tal cual se define en la documentación:
 
 	1.1. El Dominio es el corazón del proyecto, donde se definen las entidades y toda la lógica de negocio. Este proyecto debe ser totalmente agnostico sobre la persistencia de los datos, solamente se definen las interfaces para persistir las entidades(Aggregates). Se han creado 3 AggregatesRoot:
+	
 		- Leave: es la entidad principal
+		
 		- Resources: AggregateRoot secundario que se referencia desde Leave
+		
 		- LeaveTypes: AggregateRoot secundario que se referencia desde Leave. En un primer momento se intentó implementar esta entidad como un ChildEntity pero esto tiene como consecuencia un comportamiento no deseado dado que cada nuevo registro en Leave considera una nueva instancia del tipo. Es decir, cada Leave tendría su propio tipo y esto no es lo deseado.
 		Tampoco encaja del todo aquí un Enumerado ya que los valores no es un conjunto cerrado como puede ser una máquina de estados
 	
@@ -50,7 +53,7 @@ Esto obligar a realizar varias acciones con respecto a la guía:
 		3. De esta forma se crea automaticamente la migración en el proyecto de Infraestructura
 	
 	
-# Siguientes pasos pendientes de implementar:
+# Siguientes pasos pendientes de implementar
 
 1. Crear una Child Entity para la entidad Leave (a modo de ejemplo y poder probar)
 2. Probar un evento de Dominio, por ejemplo LeaveStartedDomainEvent, al lanzar este evento hay que probar que otra entidad se suscriba. Por ejemplo Resource reciba el evento de que a alguno de los recursos le han asigando un Leave

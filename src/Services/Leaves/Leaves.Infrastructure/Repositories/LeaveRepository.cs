@@ -18,17 +18,11 @@ namespace Leaves.Infrastructure.Repositories
             get { return _context; }
         }
 
-
-
-        //public LeaveRepository(LeavesContext context)
-        //{
-        //    _context = context ?? throw new ArgumentNullException(nameof(context));
-        //}
-
-        //TODO:0.- Dejamos el constructor sin parametros hasta que se añada la inyección de dependencias del DBContext en el Startup
-        public LeaveRepository()
+        public LeaveRepository(LeavesContext context)
         {
+            //TODO: Duda - Quiero comprobar si entra realmente por este constructor al usar el repositorio de Leaves
 
+            _context = context ?? throw new ArgumentNullException(nameof(context));
         }
 
         public Leave Add(Leave leave)
@@ -56,8 +50,6 @@ namespace Leaves.Infrastructure.Repositories
                    // .Collection(i => i.OrderItems).LoadAsync();
                 await _context.Entry(leave)
                    .Reference(i => i.LeaveStatus).LoadAsync();
-                await _context.Entry(leave)
-                    .Reference(i => i.LeaveStatus).LoadAsync(); //TODO: Quiero ver que pasa para los otros 2 enumerados cuando ejecute esto. No va a saber devolver el valor correctamente?
             }
 
             return leave;

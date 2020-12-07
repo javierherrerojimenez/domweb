@@ -18,12 +18,14 @@ namespace Leaves.API.Commands
     {
         private readonly IMediator _mediator;
         private readonly ILeaveRepository _leaveRepository;
+        private readonly ILeaveQueries _leaveQueries;
 
         //Se usa DI en el constructor tanto para el mediator como para repositorio de Leaves
-        public CreateLeaveCommandHandler(IMediator mediator, ILeaveRepository leaveRepository)
+        public CreateLeaveCommandHandler(IMediator mediator, ILeaveRepository leaveRepository, ILeaveQueries leaveQueries)
         {
-            _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator)); ;
-            _leaveRepository = leaveRepository ?? throw new ArgumentNullException(nameof(leaveRepository)); ;
+            _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator)); 
+            _leaveRepository = leaveRepository ?? throw new ArgumentNullException(nameof(leaveRepository)); 
+            _leaveQueries = leaveQueries ?? throw new ArgumentNullException(nameof(leaveQueries));
         }
 
         public async Task<bool> Handle(CreateLeaveCommand request, CancellationToken cancellationToken)
@@ -33,23 +35,24 @@ namespace Leaves.API.Commands
             // methods and constructor so validations, invariants and business logic 
             // make sure that consistency is preserved across the whole aggregate
 
-            //TODO: 1. - Hacer la query para rellenar el ViewModel. Estos ViewModel que devuelven las queries se pueden usar tanto para devolver por la API una estructura o de entrada al modelo DDD.
-            LeaveTypeViewModel leaveTypeVM = new LeaveTypeViewModel();
+           
+            // Recupera el los LeaveType para comprobar que es un ID correcto, se ha hecho solo a modo de ejemplo, se podría hacer lo mismo para el ResourceId
             LeaveReason leaveReason = new LeaveReason(request.LeaveReason.Name, request.LeaveReason.Description);
-            
-            var leave = new Leave(request.IdUser, request.UserName, leaveReason, request.DateStart, request.DateEnd, request.Comments, request.ResourceId);
+            var leaveTypes = await _leaveQueries.GetLeaveTypesAsync();
 
-            //TODO 2.- Recuperar con una query los Tipos en base de datos y chequear si existe el tipo. Una vez chequeado ya se mete en el objeto leave
-            // List<LeaveReasonViewModel>
-            leave.AddLeaveType(1, "", "");
-  
+            var selectedType = leaveTypes.Where(x => x.Id == request.LeaveTypeId).FirstOrDefault();
 
-            //_logger.LogInformation("----- Creating Order - Order: {@Order}", order);
+            if (selectedType != null)
+            {
+                var leave = new Leave(request.IdUser, request.UserName, leaveReason, request.DateStart, request.DateEnd, request.Comments, request.LeaveTypeId, request.ResourceId);
+                //_logger.LogInformation("----- Creating Order - Order: {@Order}", order);
+                _leaveRepository.Add(leave);
 
-            //_leaveRepository.Add(leave);
+                return await _leaveRepository.UnitOfWork
+               .SaveEntitiesAsync(cancellationToken);
+            }
 
-            return await _leaveRepository.UnitOfWork
-                .SaveEntitiesAsync(cancellationToken);
+            return false;
         }
     }
 }

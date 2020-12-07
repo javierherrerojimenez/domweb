@@ -1,4 +1,5 @@
 ﻿using Leaves.Domain.AggregatesModel.LeaveAggregate;
+using Leaves.Domain.AggregatesModel.LeaveTypeAggregate;
 using Leaves.Domain.AggregatesModel.ResourceAggregate;
 using Leaves.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
@@ -40,17 +41,24 @@ namespace Leaves.API.Infrastructure
                     context.Resources.Add(r);
                 }
 
+                // Leave Types
+                var leaveTypes = new LeaveType[]
+                {
+                    new LeaveType("Baja", "B", true),
+                    new LeaveType("AnualLeave", "AL")
+                };
+
+                foreach (var leaveType in leaveTypes)
+                {
+                    context.LeaveTypes.Add(leaveType);
+                }
+
                 // Leave Status
                 foreach (LeaveStatus s in GetLeaveStatus())
                 {
                     context.LeaveStatus.Add(s);
                 }
 
-                // Leave Status
-                foreach (LeaveType t in GetLeaveTypes())
-                {
-                    context.LeaveTypes.Add(t);
-                }
 
                 //context.SaveChangesAsync();
                 context.SaveChanges();
@@ -67,16 +75,6 @@ namespace Leaves.API.Infrastructure
                 LeaveStatus.Canceled,
                 LeaveStatus.Refused
             };
-        }
-
-        private static IEnumerable<LeaveType> GetLeaveTypes()
-        {
-            return new List<LeaveType>()
-            {
-                new LeaveType("Baja", "B", true),
-                new LeaveType ("Vacaciones", "V", false)
-            };
-        
         }
     }
 }

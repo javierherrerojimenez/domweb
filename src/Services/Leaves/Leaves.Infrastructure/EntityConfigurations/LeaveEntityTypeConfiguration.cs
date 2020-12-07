@@ -1,4 +1,5 @@
 ﻿using Leaves.Domain.AggregatesModel.LeaveAggregate;
+using Leaves.Domain.AggregatesModel.LeaveTypeAggregate;
 using Leaves.Domain.AggregatesModel.ResourceAggregate;
 using Leaves.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
@@ -29,6 +30,12 @@ namespace Leaves.Infrastructure.EntityConfigurations
                 .HasColumnName("ResourceId")
                 .IsRequired();
 
+            leaveConfiguration
+               .Property<int?>("_leaveTypeId")
+               .UsePropertyAccessMode(PropertyAccessMode.Field)
+               .HasColumnName("LeaveTypeId")
+               .IsRequired();
+
 
             leaveConfiguration
                 .Property<int>("_leaveStatusId")
@@ -37,11 +44,11 @@ namespace Leaves.Infrastructure.EntityConfigurations
                 .HasColumnName("LeaveStatusId")
                 .IsRequired();
 
-            var navigation = leaveConfiguration.Metadata.FindNavigation(nameof(Leave.LeaveType));
+            //var navigation = leaveConfiguration.Metadata.FindNavigation(nameof(Leave.LeaveType));
 
-            // DDD Patterns comment:
-            //Set as field (New since EF 1.1) to access the OrderItem collection property through its field
-            navigation.SetPropertyAccessMode(PropertyAccessMode.Field);
+            //// DDD Patterns comment:
+            ////Set as field (New since EF 1.1) to access the OrderItem collection property through its field
+            //navigation.SetPropertyAccessMode(PropertyAccessMode.Field);
 
             //LeaveReason value object persisted as owned entity type supported since EF Core 2.0
             leaveConfiguration
@@ -65,6 +72,11 @@ namespace Leaves.Infrastructure.EntityConfigurations
                 .WithMany()
                 .IsRequired()
                 .HasForeignKey("_resourceId");
+
+            leaveConfiguration.HasOne<LeaveType>()
+               .WithMany()
+               .IsRequired()
+               .HasForeignKey("_leaveTypeId");
 
             leaveConfiguration.HasOne(o => o.LeaveStatus)
                 .WithMany()

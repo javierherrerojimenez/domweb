@@ -7,7 +7,7 @@ namespace Leaves.API.Queries
 {
     public class LeaveTypeViewModel
     {
-        public int LeaveTypeId { get; set; }
+        public int Id { get; set; }
         public string Code { get; set; }
         public string Name { get; set; }
         public bool IsPaid { get; set; }

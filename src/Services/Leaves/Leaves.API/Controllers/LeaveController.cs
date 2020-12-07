@@ -35,16 +35,16 @@ namespace Leaves.API.Controllers
             return await _mediator.Send(createLeaveCommand);
         }
 
-        [Route("GetCreateLeave")]
+        [Route("GetCreateCommandSample")]
         [HttpGet]
-        public CreateLeaveCommand GetCreateCommand()
+        public CreateLeaveCommand GetCreateCommandSample()
         {
             List<LeaveReasonDTO> reasons = new List<LeaveReasonDTO>();
             LeaveReasonDTO reason = new LeaveReasonDTO();
             reason.Name = "Nombre Razon 1";
             reason.Description = "Descripción Razon 1";
 
-            CreateLeaveCommand c = new CreateLeaveCommand("1,", 1, "Status1", "Tipo 1", reason, DateTime.Now.Date, DateTime.Now.Date, "mi comentario");
+            CreateLeaveCommand c = new CreateLeaveCommand("roster1", 1, 1, reason, DateTime.Now.Date, DateTime.Now.Date, "mi comentario");
             return c;
         }
 

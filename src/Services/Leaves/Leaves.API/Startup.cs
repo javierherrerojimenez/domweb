@@ -39,7 +39,7 @@ namespace Leaves.API
             container.Populate(services);
 
             container.RegisterModule(new MediatorModule());
-            container.RegisterModule(new ApplicationModule());
+            container.RegisterModule(new ApplicationModule(Configuration.GetConnectionString("DefaultConnection")));
 
             return new AutofacServiceProvider(container.Build());
         }

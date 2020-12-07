@@ -17,11 +17,12 @@ namespace Leaves.Domain.AggregatesModel.LeaveAggregate
         public int? GetResourceId => _resourceId;
         private int? _resourceId;
 
+        public int? GetLeaveTypeId => _leaveTypeId;
+        private int? _leaveTypeId;
+
         public LeaveStatus LeaveStatus { get; private set; }
         private int _leaveStatusId;
 
-        // LeaveType is a Value Object pattern example persisted as EF Core 2.0 owned entity
-        public LeaveType LeaveType { get; private set; }
 
         public LeaveReason LeaveReason { get; private set; }
 
@@ -31,6 +32,7 @@ namespace Leaves.Domain.AggregatesModel.LeaveAggregate
         public string Comments { get; private set; }
 
         private bool _isNew;
+
         //private string _description;
         private DateTime _createDate;
 
@@ -39,9 +41,10 @@ namespace Leaves.Domain.AggregatesModel.LeaveAggregate
 
         }
 
-        public Leave(string userId, string userName, LeaveReason leaveReason, DateTime dateStart, DateTime dateEnd, string comments, int? resourceId = null) : this()
+        public Leave(string userId, string userName, LeaveReason leaveReason, DateTime dateStart, DateTime dateEnd, string comments, int leaveTypeId,  int? resourceId = null) : this()
         {
             _resourceId = resourceId;
+            _leaveTypeId = leaveTypeId;
             _leaveStatusId = LeaveStatus.Requested.Id;
   
             LeaveReason = leaveReason;
@@ -69,38 +72,38 @@ namespace Leaves.Domain.AggregatesModel.LeaveAggregate
         // This Leave AggregateRoot's method "AddLeaveType()" should be the only way to add Type to the Leave,
         // so any behavior (discounts, etc.) and validations are controlled by the AggregateRoot 
         // in order to maintain consistency between the whole Aggregate. 
-        public void AddLeaveType(int leaveTypeId, string name, string code)
-        {
-            var leaveType = new LeaveType(leaveTypeId, name, code);
-            LeaveType = leaveType;
-            //var existingReasonForLeave = _leaveReasons.Where(o => o.Id == leaveReasonId)
-            //    .SingleOrDefault();
+        //public void SetLeaveType(int leaveTypeId, string name, string code, bool isPaid)
+        //{
+        //    var leaveType = new LeaveType(leaveTypeId, name, code, isPaid);
+        //    LeaveType = leaveType;
+        //    //var existingReasonForLeave = _leaveReasons.Where(o => o.Id == leaveReasonId)
+        //    //    .SingleOrDefault();
 
-            //if (existingReasonForLeave != null)
-            //{
-            //    //if previous line exist modify it with higher discount  and units..
+        //    //if (existingReasonForLeave != null)
+        //    //{
+        //    //    //if previous line exist modify it with higher discount  and units..
 
-            //    //if (discount > existingOrderForProduct.GetCurrentDiscount())
-            //    //{
-            //    //    existingOrderForProduct.SetNewDiscount(discount);
-            //    //}
+        //    //    //if (discount > existingOrderForProduct.GetCurrentDiscount())
+        //    //    //{
+        //    //    //    existingOrderForProduct.SetNewDiscount(discount);
+        //    //    //}
 
-            //    //existingOrderForProduct.AddUnits(units);
-            //}
-            //else
-            //{
-            //    //add validated new order item
+        //    //    //existingOrderForProduct.AddUnits(units);
+        //    //}
+        //    //else
+        //    //{
+        //    //    //add validated new order item
 
-            //    var leaveReason = new LeaveType(leaveReasonId, description);
-            //    _leaveReasons.Add(leaveReason);
-            //}
-        }
+        //    //    var leaveReason = new LeaveType(leaveReasonId, description);
+        //    //    _leaveReasons.Add(leaveReason);
+        //    //}
+        //}
 
       
 
         //TODO: He añadido el SetResourceId en comparación con el SetBuyerId que se llama desde UpdateOrderWhenBuyerAndPaymentMethodVerifiedDomainEventHandler en el proyecto API, hay que seguir ese hilo
         // https://docs.microsoft.com/es-es/dotnet/architecture/microservices/microservice-ddd-cqrs-patterns/microservice-application-layer-implementation-web-api
-        public void SetBuyerId(int id)
+        public void SetResourceId(int id)
         {
             _resourceId = id;
         }

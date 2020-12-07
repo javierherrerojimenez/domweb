@@ -38,11 +38,13 @@ namespace Leaves.Infrastructure.Migrations
                     b.Property<bool>("IsNew")
                         .HasColumnType("bit");
 
-                    b.Property<int?>("LeaveTypeId")
-                        .HasColumnType("int");
-
                     b.Property<int>("_leaveStatusId")
                         .HasColumnName("LeaveStatusId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("_leaveTypeId")
+                        .IsRequired()
+                        .HasColumnName("LeaveTypeId")
                         .HasColumnType("int");
 
                     b.Property<int?>("_resourceId")
@@ -52,9 +54,9 @@ namespace Leaves.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("LeaveTypeId");
-
                     b.HasIndex("_leaveStatusId");
+
+                    b.HasIndex("_leaveTypeId");
 
                     b.HasIndex("_resourceId");
 
@@ -77,28 +79,28 @@ namespace Leaves.Infrastructure.Migrations
                     b.ToTable("LEAVE_STATUS","leaves_db");
                 });
 
-            modelBuilder.Entity("Leaves.Domain.AggregatesModel.LeaveAggregate.LeaveType", b =>
+            modelBuilder.Entity("Leaves.Domain.AggregatesModel.LeaveTypeAggregate.LeaveType", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("_code")
+                    b.Property<string>("Code")
                         .IsRequired()
-                        .HasColumnName("Code")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
-                    b.Property<bool>("_isPaid")
-                        .HasColumnName("IsPaid")
+                    b.Property<bool>("IsPaid")
                         .HasColumnType("bit");
 
-                    b.Property<string>("_name")
+                    b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnName("Name")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Code")
+                        .IsUnique();
 
                     b.ToTable("LEAVE_TYPES","leaves_db");
                 });
@@ -124,13 +126,15 @@ namespace Leaves.Infrastructure.Migrations
 
             modelBuilder.Entity("Leaves.Domain.AggregatesModel.LeaveAggregate.Leave", b =>
                 {
-                    b.HasOne("Leaves.Domain.AggregatesModel.LeaveAggregate.LeaveType", "LeaveType")
-                        .WithMany()
-                        .HasForeignKey("LeaveTypeId");
-
                     b.HasOne("Leaves.Domain.AggregatesModel.LeaveAggregate.LeaveStatus", "LeaveStatus")
                         .WithMany()
                         .HasForeignKey("_leaveStatusId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Leaves.Domain.AggregatesModel.LeaveTypeAggregate.LeaveType", null)
+                        .WithMany()
+                        .HasForeignKey("_leaveTypeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

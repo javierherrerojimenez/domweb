@@ -20,34 +20,33 @@ namespace Leaves.API.Commands
     {
         public string IdUser { get; set; } //TODO: Duda - Es realmente necesario el IdUser en el DTO? Yo pienso que no, es decir, o se recibe el Id o se recibe el userName
 
-        public string UserName { get; /*private*/ set; }
+        public string UserName { get; set; }
 
-        public int ResourceId { get; private set; } //TODO: Duda - Para mi lo correcto aquí quizá sea pasar un ResourceCode 
+        public int ResourceId { get; set; } 
         
-        public string LeaveStatus { get; private set; }
+        //public string LeaveStatus { get; private set; } El Status siempre se inicializa y ya está
 
-        public string LeaveType { get; /*private*/ set; }
+        public int LeaveTypeId { get; set; }
 
-        public LeaveReasonDTO LeaveReason { get; private set; }
+        public LeaveReasonDTO LeaveReason { get; set; }
 
-        public DateTime DateStart { get; private set; }
+        public DateTime DateStart { get; set; }
 
-        public DateTime DateEnd { get; private set; }
+        public DateTime DateEnd { get; set; }
 
         
-        public string Comments { get; private set; }
+        public string Comments { get; set; }
 
         public CreateLeaveCommand()
         {
 
         }
 
-        public CreateLeaveCommand(string userName, int resourceId, string leaveStatus, string leaveType, LeaveReasonDTO leaveReason, DateTime dateStart, DateTime dateEnd, string comments)
+        public CreateLeaveCommand(string userName, int resourceId, int leaveTypeId, LeaveReasonDTO leaveReason, DateTime dateStart, DateTime dateEnd, string comments)
         {
             UserName = userName;
             ResourceId = resourceId;
-            LeaveStatus = leaveStatus;
-            LeaveType = leaveType;
+            LeaveTypeId = leaveTypeId;
             LeaveReason = leaveReason;
             DateStart = dateStart;
             DateEnd = dateEnd;

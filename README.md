@@ -1,4 +1,4 @@
-# domweb
+# DOMweb
 
 Prueba de concepto: Arquitectura Microservicios para DOMweb
 
@@ -23,6 +23,7 @@ Entity Framework: https://docs.microsoft.com/es-es/aspnet/core/data/ef-mvc/migra
 	1.2. En la Infraestructura se definirá la forma de persistir los datos en este caso mediante el ORM Entity Framework
 	
 	1.3. La API es la encargada de exponer métodos para que sean consumidos desde fuera, y también desde este proyecto se debe gestionar tantos los eventos del propio dominio como eventos de integración con otros microservicios.
+	
 		- Se añade Dapper para gestionar queries directas contra la base de datos. De esta forma separamos los comandos de las consultas tal y como se recomienda en CQRS
 	
 2. Añadir Entity Framework. Siguiendo la guía referenciada en al comienzo se aprender a crear la base de datos y gestionar la primera Migración. En este proyecto el problema está en que del DBContext no está en el proyecto principial (en este caso sería la API)

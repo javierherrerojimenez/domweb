@@ -72,6 +72,20 @@ namespace Leaves.Domain.AggregatesModel.LeaveAggregate
             IsPaid = isPaid;
         }
 
+        public LeaveType(string name, string code, bool isPaid = false)
+        {
+
+            if (string.IsNullOrEmpty(code))
+                throw new LeaveDomainException("Code of LeaveType invalid");
+
+            if (string.IsNullOrEmpty(name))
+                throw new LeaveDomainException("Name of LeaveType invalid");
+
+            Name = name;
+            Code = code;
+            IsPaid = isPaid;
+        }
+
         // Se pueden hacer este tipo de métodos para recuperar el valor pero yo prefiero tener la propiedad con 
         //public string GetLeaveReasonDescription() => _description;
     }

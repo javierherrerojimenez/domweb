@@ -19,9 +19,10 @@ namespace Leaves.Infrastructure.Data
     public class LeavesContext : DbContext, IUnitOfWork
     {
         public const string DEFAULT_SCHEMA = "leaves_db";
-
         public DbSet<Resource> Resources { get; set; }
         public DbSet<Leave> Leaves { get; set; }
+        public DbSet<LeaveStatus> LeaveStatus { get; set; }
+        public DbSet<LeaveType> LeaveTypes { get; set; }
 
         private readonly IMediator _mediator;
 
@@ -33,7 +34,7 @@ namespace Leaves.Infrastructure.Data
         {
             _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
 
-            System.Diagnostics.Debug.WriteLine("OrderingContext::ctor ->" + this.GetHashCode());
+            System.Diagnostics.Debug.WriteLine("LeavesContext::ctor ->" + this.GetHashCode());
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

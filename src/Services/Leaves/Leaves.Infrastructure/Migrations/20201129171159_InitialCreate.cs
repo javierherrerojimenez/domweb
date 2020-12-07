@@ -30,9 +30,6 @@ namespace Leaves.Infrastructure.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name1 = table.Column<string>(nullable: true),
-                    Code1 = table.Column<string>(nullable: true),
-                    IsPaid1 = table.Column<bool>(nullable: false),
                     Code = table.Column<string>(nullable: false),
                     IsPaid = table.Column<bool>(nullable: false),
                     Name = table.Column<string>(nullable: false)

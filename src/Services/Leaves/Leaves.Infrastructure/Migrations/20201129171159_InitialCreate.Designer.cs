@@ -86,18 +86,6 @@ namespace Leaves.Infrastructure.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("Code")
-                        .HasColumnName("Code1")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("IsPaid")
-                        .HasColumnName("IsPaid1")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("Name")
-                        .HasColumnName("Name1")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("_code")
                         .IsRequired()
                         .HasColumnName("Code")

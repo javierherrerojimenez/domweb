@@ -53,10 +53,12 @@ Esto obligar a realizar varias acciones con respecto a la guía:
 		2. Desde linea de comando se ejecuta esta sentencia: dotnet ef migrations  --project ../Leaves.Infrastructure  add UniqueKey_ResourceCode
 		3. De esta forma se crea automaticamente la migración en el proyecto de Infraestructura
 	
+
+3. Se añade la ChildEntity ResourceNotifications para probar cómo generar en base de datos una relación 1:N. Esta entidad la vamos a utilizar para guardar las notificaciones asociadas a un recurso. 
+4. Unido a lo anterior se implementa un ejemplo de DomainEvent, en este caso se ha implementado AcceptedLeaveDomainEvent que se lanza una vez se cambia el estado del Leave a estado Accepted. En el proyecto API hay una suscripción a este evento (a través de MediatR) y lo que se consigue con este ejemplo es que cuando una Leave cambie a estado Accepted llegue una notificación a la entidad Resource y añada la fecha y hora del cambio de estado de ese Leave a la lista de ResourceNotification. De esta forma tenemos un ejemplo de un child entity y la publicación de un evento de dominio
 	
 # Siguientes pasos pendientes de implementar
 
-1. Crear una Child Entity para la entidad Leave (a modo de ejemplo y poder probar)
 2. Probar un evento de Dominio, por ejemplo LeaveStartedDomainEvent, al lanzar este evento hay que probar que otra entidad se suscriba. Por ejemplo Resource reciba el evento de que a alguno de los recursos le han asigando un Leave
 
 

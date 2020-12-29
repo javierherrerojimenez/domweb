@@ -1,5 +1,6 @@
 ﻿using Autofac;
 using Leaves.API.Commands;
+using Leaves.API.DomainEventHandlers.LeaveAccepted;
 using MediatR;
 using System;
 using System.Collections.Generic;
@@ -21,6 +22,9 @@ namespace Leaves.API.Infrastructure.AutofacModules
                 .AsClosedTypesOf(typeof(IRequestHandler<,>));
 
             // Register the DomainEventHandler classes (they implement INotificationHandler<>) in assembly holding the Domain Events
+            builder.RegisterAssemblyTypes(typeof(LeaveAcceptedDomainEventHandler).GetTypeInfo().Assembly)
+                .AsClosedTypesOf(typeof(INotificationHandler<>));
+
             //builder.RegisterAssemblyTypes(typeof(ValidateOrAddBuyerAggregateWhenOrderStartedDomainEventHandler).GetTypeInfo().Assembly)
             //    .AsClosedTypesOf(typeof(INotificationHandler<>));
 

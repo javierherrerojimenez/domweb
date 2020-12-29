@@ -33,7 +33,7 @@ namespace Leaves.Domain.AggregatesModel.LeaveAggregate
 
         private bool _isNew;
 
-        //private string _description;
+        private string _description;
         private DateTime _createDate;
 
         public Leave()
@@ -123,6 +123,8 @@ namespace Leaves.Domain.AggregatesModel.LeaveAggregate
             {
                 //AddDomainEvent(new OrderStatusChangedToAwaitingValidationDomainEvent(Id, _orderItems));
                 _leaveStatusId = LeaveStatus.Accepted.Id;
+                _description = $"The leave was accepted.";
+                AddDomainEvent(new LeaveAcceptedDomainEvent(this));
             }
         }
 

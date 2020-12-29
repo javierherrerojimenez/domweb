@@ -35,6 +35,20 @@ namespace Leaves.API.Controllers
             return await _mediator.Send(createLeaveCommand);
         }
 
+        [Route("AcceptLeave")]
+        [HttpPost]
+        public async Task<bool> AcceptLeave([FromBody] AcceptLeaveCommand acceptLeaveCommand)
+        {
+            //_logger.LogInformation(
+            //    "----- Sending command: {CommandName} - {IdProperty}: {CommandId} ({@Command})",
+            //    createOrderDraftCommand.GetGenericTypeName(),
+            //    nameof(createOrderDraftCommand.BuyerId),
+            //    createOrderDraftCommand.BuyerId,
+            //    createOrderDraftCommand);
+
+            return await _mediator.Send(acceptLeaveCommand);
+        }
+
         [Route("GetCreateCommandSample")]
         [HttpGet]
         public CreateLeaveCommand GetCreateCommandSample()

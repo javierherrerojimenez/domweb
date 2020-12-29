@@ -48,8 +48,7 @@ namespace Leaves.API.Commands
                 //_logger.LogInformation("----- Creating Order - Order: {@Order}", order);
                 _leaveRepository.Add(leave);
 
-                return await _leaveRepository.UnitOfWork
-               .SaveEntitiesAsync(cancellationToken);
+                return await _leaveRepository.UnitOfWork.SaveEntitiesAsync(cancellationToken);
             }
 
             return false;

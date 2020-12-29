@@ -33,17 +33,17 @@ namespace Leaves.Domain.SeedWork
             _domainEvents.Add(eventItem);
         }
 
-        /*
-        public void RemoveDomainEvent(INotification eventItem)
-        {
-            _domainEvents?.Remove(eventItem);
-        }
+     
+        //public void RemoveDomainEvent(INotification eventItem)
+        //{
+        //    _domainEvents?.Remove(eventItem);
+        //}
 
         public void ClearDomainEvents()
         {
             _domainEvents?.Clear();
         }
-        */
+        
 
         /// <summary>
         /// Identifica si el objeto de la Entidad tiene asignado un ID

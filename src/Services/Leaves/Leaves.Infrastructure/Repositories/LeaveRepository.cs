@@ -20,8 +20,6 @@ namespace Leaves.Infrastructure.Repositories
 
         public LeaveRepository(LeavesContext context)
         {
-            //TODO: Duda - Quiero comprobar si entra realmente por este constructor al usar el repositorio de Leaves
-
             _context = context ?? throw new ArgumentNullException(nameof(context));
         }
 

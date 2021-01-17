@@ -1,4 +1,5 @@
 ﻿using Autofac;
+using Duties.API.Queries;
 using Duties.Domain.AggregatesModel.DutyAggregate;
 using Duties.Domain.AggregatesModel.ResourceAggregate;
 using Duties.Infrastructure.Repositories;
@@ -25,6 +26,10 @@ namespace Duties.API.Infrastructure.AutofacModules
 
             builder.RegisterType<DutyRepository>()
                 .As<IDutyRepository>()
+                .InstancePerLifetimeScope();
+
+            builder.Register(c => new DutiesQueries(QueriesConnectionString))
+                .As<IDutiesQueries>()
                 .InstancePerLifetimeScope();
 
             //builder.Register(c => new LeaveQueries(QueriesConnectionString))

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Duties.API.Commands;
+using Duties.API.Queries;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -14,10 +15,12 @@ namespace Duties.API.Controllers
     public class DutyController : ControllerBase
     {
         private readonly IMediator _mediator;
+        private readonly IDutiesQueries _dutiesQueries;
 
-        public DutyController(IMediator mediator)
+        public DutyController(IMediator mediator, IDutiesQueries dutiesQueries)
         {
             _mediator = mediator;
+            _dutiesQueries = dutiesQueries;
         }
         // GET: api/Duty
         //[HttpGet]
@@ -39,6 +42,13 @@ namespace Duties.API.Controllers
         public async Task<bool> Post([FromBody] CreateDutyCommand createDutyCommand)
         {
             return await _mediator.Send(createDutyCommand);
+        }
+
+        [Route("GetResourcesOfDuties")]
+        [HttpGet]
+        public async Task<IEnumerable<ResourcesOfDutiesViewModel>> GetResourcesOfDutiesAsync()
+        {
+            return await _dutiesQueries.GetResourcesOfDutiesAsync();
         }
 
         // PUT: api/Duty/5

@@ -1,4 +1,5 @@
 ﻿using Duties.Domain.AggregatesModel.DutyAggregate;
+using Duties.Domain.AggregatesModel.ResourceAggregate;
 using Duties.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
@@ -17,6 +18,11 @@ namespace Duties.Infrastructure.EntityConfigurations
             builder.HasKey(o => o.Id);
 
             builder.Ignore(b => b.DomainEvents);
+
+            builder
+               .Property<int?>("_resourceId")
+               .UsePropertyAccessMode(PropertyAccessMode.Field)
+               .HasColumnName("ResourceId");
 
             builder.Property<string>("Name").IsRequired();
             builder.Property<DateTime>("DateStart").IsRequired();
@@ -37,6 +43,11 @@ namespace Duties.Infrastructure.EntityConfigurations
              .HasColumnName("CreatedTime")
              .HasDefaultValue(DateTime.UtcNow)
              .IsRequired();
+
+            builder.HasOne<Resource>()
+                .WithMany()
+                .IsRequired()
+                .HasForeignKey("_resourceId");
 
             //builder.HasIndex(p => new { p.Name }).IsUnique();
         }

@@ -52,7 +52,7 @@ namespace Duties.Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnName("CreatedTime")
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2021, 1, 10, 18, 5, 58, 648, DateTimeKind.Utc).AddTicks(6572));
+                        .HasDefaultValue(new DateTime(2021, 1, 17, 18, 56, 46, 185, DateTimeKind.Utc).AddTicks(9605));
 
                     b.Property<bool>("_isNew")
                         .ValueGeneratedOnAdd()
@@ -60,7 +60,13 @@ namespace Duties.Infrastructure.Migrations
                         .HasColumnType("bit")
                         .HasDefaultValue(false);
 
+                    b.Property<int?>("_resourceId")
+                        .HasColumnName("ResourceId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("_resourceId");
 
                     b.ToTable("DUTIES","duties_db");
                 });
@@ -82,6 +88,15 @@ namespace Duties.Infrastructure.Migrations
                         .IsUnique();
 
                     b.ToTable("RESOURCES","duties_db");
+                });
+
+            modelBuilder.Entity("Duties.Domain.AggregatesModel.DutyAggregate.Duty", b =>
+                {
+                    b.HasOne("Duties.Domain.AggregatesModel.ResourceAggregate.Resource", null)
+                        .WithMany()
+                        .HasForeignKey("_resourceId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

@@ -56,13 +56,13 @@ Esto obligar a realizar varias acciones con respecto a la guía:
 
 3. Se añade la ChildEntity ResourceNotifications para probar cómo generar en base de datos una relación 1:N. Esta entidad la vamos a utilizar para guardar las notificaciones asociadas a un recurso. 
 4. Unido a lo anterior se implementa un ejemplo de DomainEvent, en este caso se ha implementado AcceptedLeaveDomainEvent que se lanza una vez se cambia el estado del Leave a estado Accepted. En el proyecto API hay una suscripción a este evento (a través de MediatR) y lo que se consigue con este ejemplo es que cuando una Leave cambie a estado Accepted llegue una notificación a la entidad Resource y añada la fecha y hora del cambio de estado de ese Leave a la lista de ResourceNotification. De esta forma tenemos un ejemplo de un child entity y la publicación de un evento de dominio
-	
+
+5. Se ha añadido el Microservicio para Duties, siguiendo los mismos pasos que se hicieron para el microservicio de Leaves. Una vez se tienen estos 2 microservicios se puede hacer un ejemplo de evento de integración con Rabbit
 # Siguientes pasos pendientes de implementar
 
 2. Probar un evento de Dominio, por ejemplo LeaveStartedDomainEvent, al lanzar este evento hay que probar que otra entidad se suscriba. Por ejemplo Resource reciba el evento de que a alguno de los recursos le han asigando un Leave
 
 
-10. Crear otro Microservicio, por ejemplo uno para gestionar Tareas (Duties)
 11. Una vez tengamos el microservicio de Tareas se puede probar la gestión de un evento de integración
 15. Crear una API Gateway para devolver información o permitir que a partir de un comando a la API Gateway eso desencadene varios comandos internos en el microservicio. Por ejemplo la acción CrearLeave desde una aplicación cliente a través de la API Gateway 
 tendrá como consecuencia el lanzamiento del comando CreateLeave y por otro lado el comando que desasigne las Tareas correspondientes en el microservicio de tareas. Con eventos de integración se debe controlar la integridad entre ambos microservicios

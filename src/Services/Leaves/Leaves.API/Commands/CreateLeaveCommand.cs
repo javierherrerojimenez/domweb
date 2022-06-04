@@ -2,7 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-//using System.Runtime.Serialization;
+using System.Runtime.Serialization;
 using System.Threading.Tasks;
 
 namespace Leaves.API.Commands
@@ -16,33 +16,42 @@ namespace Leaves.API.Commands
     // http://blog.gauffin.org/2012/06/griffin-container-introducing-command-support/
     // https://docs.microsoft.com/dotnet/csharp/programming-guide/classes-and-structs/how-to-implement-a-lightweight-class-with-auto-implemented-properties
     // Esta clase es un DTO 
+
+    [DataContract]
     public class CreateLeaveCommand : IRequest<bool>
     {
-        public string IdUser { get; set; } //TODO: Duda - Es realmente necesario el IdUser en el DTO? Yo pienso que no, es decir, o se recibe el Id o se recibe el userName
+        [DataMember]
+        public string IdUser { get;  set; } //TODO: Duda - Es realmente necesario el IdUser en el DTO? Yo pienso que no, es decir, o se recibe el Id o se recibe el userName
 
-        public string UserName { get; set; }
+        [DataMember]
+        public string UserName { get;  set; }
 
-        public int ResourceId { get; set; } 
-        
+        [DataMember]
+        public int ResourceId { get;  set; }
+
         //public string LeaveStatus { get; private set; } El Status siempre se inicializa y ya está
 
-        public int LeaveTypeId { get; set; }
+        [DataMember]
+        public int LeaveTypeId { get;  set; }
 
-        public LeaveReasonDTO LeaveReason { get; set; }
+        [DataMember]
+        public LeaveReasonDTO LeaveReason { get;  set; }
 
-        public DateTime DateStart { get; set; }
+        [DataMember]
+        public DateTime DateStart { get;  set; }
 
-        public DateTime DateEnd { get; set; }
+        [DataMember]
+        public DateTime DateEnd { get;  set; }
 
-        
-        public string Comments { get; set; }
+        [DataMember]
+        public string Comments { get;  set; }
 
         public CreateLeaveCommand()
         {
 
         }
 
-        public CreateLeaveCommand(string userName, int resourceId, int leaveTypeId, LeaveReasonDTO leaveReason, DateTime dateStart, DateTime dateEnd, string comments)
+        public CreateLeaveCommand(string userName, int resourceId, int leaveTypeId, LeaveReasonDTO leaveReason, DateTime dateStart, DateTime dateEnd, string comments) : this()
         {
             UserName = userName;
             ResourceId = resourceId;

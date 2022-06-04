@@ -67,6 +67,8 @@ Esto obligar a realizar varias acciones con respecto a la guía:
 15. Crear una API Gateway para devolver información o permitir que a partir de un comando a la API Gateway eso desencadene varios comandos internos en el microservicio. Por ejemplo la acción CrearLeave desde una aplicación cliente a través de la API Gateway 
 tendrá como consecuencia el lanzamiento del comando CreateLeave y por otro lado el comando que desasigne las Tareas correspondientes en el microservicio de tareas. Con eventos de integración se debe controlar la integridad entre ambos microservicios
 
-20. Añadir Logger
+20. Añadir ILogger
+21. Decorador [Benchmark]
+22. Implementar idempotencia: https://docs.microsoft.com/es-es/dotnet/architecture/microservices/microservice-ddd-cqrs-patterns/microservice-application-layer-implementation-web-api#the-command-class
 
 25. Añadir contenedores Docker

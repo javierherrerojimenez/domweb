@@ -1,12 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
 using Leaves.API.Commands;
+using Leaves.Domain.AggregatesModel.LeaveAggregate;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 
 namespace Leaves.API.Controllers
 {
@@ -15,10 +18,14 @@ namespace Leaves.API.Controllers
     public class LeaveController : ControllerBase
     {
         private readonly IMediator _mediator;
+        private readonly ILogger<LeaveController> _logger;
+        private readonly ILeaveRepository _leaveRepository;
 
-        public LeaveController(IMediator mediator)
+        public LeaveController(IMediator mediator, ILogger<LeaveController> logger, ILeaveRepository leaveRepository)
         {
             _mediator = mediator;
+            _logger = logger;
+            _leaveRepository = leaveRepository;
         }
 
         [Route("CreateLeave")]
@@ -32,6 +39,14 @@ namespace Leaves.API.Controllers
             //    createOrderDraftCommand.BuyerId,
             //    createOrderDraftCommand);
 
+            _logger.LogInformation("Sending command: {CommandName} ({@Command})", nameof(CreateLeaveCommand), createLeaveCommand);
+            //int myEventID = 20;
+            //short myCategory = 10;
+            //// Write an informational entry to the event log.
+            //Console.WriteLine("Write from first source ");
+            //EventLog.WriteEntry("FirstSource", "Writing warning to event log.",
+            //                     EventLogEntryType.Information, myEventID, myCategory);
+            Debug.WriteLine("Escribe Debug");
             return await _mediator.Send(createLeaveCommand);
         }
 
@@ -41,7 +56,7 @@ namespace Leaves.API.Controllers
         {
             //_logger.LogInformation(
             //    "----- Sending command: {CommandName} - {IdProperty}: {CommandId} ({@Command})",
-            //    createOrderDraftCommand.GetGenericTypeName(),
+            //    acceptLeaveCommand.GetGenericTypeName(),
             //    nameof(createOrderDraftCommand.BuyerId),
             //    createOrderDraftCommand.BuyerId,
             //    createOrderDraftCommand);
@@ -71,9 +86,9 @@ namespace Leaves.API.Controllers
         
         // GET: api/Leave/5
         [HttpGet("{id}", Name = "Get")]
-        public string Get(int id)
+        public async Task<Leave> Get(int id)
         {
-            return "value";
+            return await _leaveRepository.GetAsync(id);
         }
 
         // POST: api/Leave
